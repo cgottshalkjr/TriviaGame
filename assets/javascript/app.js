@@ -77,10 +77,13 @@ function start () {
             $("#startButton").hide();
             writeQuestion();
             choice();
-            intervalId = setInterval(timer, 1000);
-            $("#timerArea").text(timer);
-            timer--;
+            intervalId = setInterval(countDown, 1000);
+            
     });
+}
+function countDown() {
+    $("#timerArea").text(timer);
+            timer--;
 }
 
 function writeQuestion() {
