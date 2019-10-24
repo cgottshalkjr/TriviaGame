@@ -1,3 +1,4 @@
+//Question array
 var questions = [
     {
         question: "The Lord of the Rings movies are based on a novel by what author?",
@@ -63,48 +64,65 @@ var questions = [
 
 var right = 0;
 var wrong = 0;
-// var question = [];
 var unanswered = 0;
 var counter = 0;
-var timer = 15;
+var timer = 10;
 var intervalId;
+var answered = false;
+// var correctAnswer;
 
-function start () {
-    
+function start() {
+
     $("#startButton").append("<button id='startButton'>Start</button>");
 
-    $("#startButton").on("click", function() {
-            $("#startButton").hide();
-            writeQuestion();
-            choice();
-            intervalId = setInterval(countDown, 1000);
-            
+    $("#startButton").on("click", function () {
+        $("#startButton").hide();
+        writeQuestion();
+        choice();
+        intervalId = setInterval(countDown, 1000);
     });
-}
-function countDown() {
-    $("#timerArea").text(timer);
-            timer--;
 }
 
 function writeQuestion() {
-        
-        
     $("#question").append("<br>" + "<br>" + "<br>" + "<h2>" + questions[counter].question + "</h2>");
-    
-    
 }
 
-function choice(){
+function choice() {
 
-    for (var i = 0; i < questions[counter].choices.length; i++){
+    for (var i = 0; i < questions[counter].choices.length; i++) {
         console.log(questions[counter].choices);
         $("#answerArea").append("<button id='answerArea'>" + questions[counter].choices[i] + "</button>");
 
 
     }
-    
-    
-   
+}
+
+// function loadQuestion() {
+//     $("#question").append("<br>" + "<br>" + "<br>" + "<h2>" + questions[counter].question + "</h2>");
+//     for (i = 0; i < questions[counter].answers.length; i++){
+//         $("#answerArea").append("<button id='answerArea'>" + questions[counter].choices[i] + "</button>");
+//     }
+// }
+
+function stop() {
+    clearInterval(intervalId);
+}
+
+function countDown() {
+    $("#timerArea").text(timer);
+    timer--;
+    if (timer === 0) {
+        stop();
+    }
+}
+
+
+function wrongAnswer() {
+
+}
+
+function rightAnswer() {
+
 }
 
 
@@ -112,9 +130,27 @@ function choice(){
 
 
 
-$(document).ready(function (){
 
- start();
+
+
+
+
+
+$(document).ready(function () {
+
+    start();
+
+    // $("#answerArea").on("click", function () {
+
+    //     var userClick = $(this).text();
+    //     if (userClick === questions[counter].answer) {
+    //         right++;
+
+    //         console.log(userClick);
+
+
+    //     }
+    // });
 
 
 
@@ -125,3 +161,8 @@ $(document).ready(function (){
 
 
 });
+
+
+
+
+

@@ -32,8 +32,8 @@ body {
     background-color:  rgba(84,84,72);
     border: none;
     color: white;
-    width: 300px;
-    margin: 0 auto;
+    width: 400px;
+    margin: 5px;
     padding: 10px 0;
     text-align: center;
     text-decoration: none;
@@ -41,11 +41,30 @@ body {
     cursor: pointer;
 }
 
- #startButton:hover {
+ button:hover {
 	box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
-#startButton:active {
-	
+
+button:active {
+	opacity: 0.5;
+}
+
+#answerArea {
+    margin-left: 37px;
+}
+
+#timerArea {
+    width: 25%;
+    text-align: center;
+    font-size: 28px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+
+#startButton {
+    margin-left: 18%;
+    margin-top: 10%;
 }
 
 h2 {
