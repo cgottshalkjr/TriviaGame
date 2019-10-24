@@ -1,4 +1,4 @@
-//Question array
+//Array of objects. Each object holds questions, choices, answer, and pic associated
 var questions = [
     {
         question: "The Lord of the Rings movies are based on a novel by what author?",
@@ -62,106 +62,113 @@ var questions = [
     },
 ]
 
-var right = 0;
-var wrong = 0;
-var unanswered = 0;
+//Global variables
+var rightAnswers = 0;
+var wrongAnswers = 0;
+var unansweredQuestions = 0;
 var counter = 0;
 var timer = 10;
 var intervalId;
-var answered = false;
-// var correctAnswer;
 
-function start() {
-
+//Function that holds start button and hides it after game is initialized.
+function startGame() {
     $("#startButton").append("<button id='startButton'>Start</button>");
-
     $("#startButton").on("click", function () {
         $("#startButton").hide();
-        writeQuestion();
-        choice();
-        intervalId = setInterval(countDown, 1000);
+        initializeQuestion(counter);
     });
 }
 
+//Function that writes the first question in the array.
 function writeQuestion() {
-    $("#question").append("<br>" + "<br>" + "<br>" + "<h2>" + questions[counter].question + "</h2>");
+    $("#questionArea").append("<br>" + "<br>" + "<br>" + "<h2>" + questions[counter].question + "</h2>");
 }
 
-function choice() {
+function initializeQuestion(counter) {
+    $("#resultArea").empty().hide();
+    $("#answerArea").empty().show();
+    $("#questionArea").empty().show();
+    $("#timerArea").show();
+    timer = 10;
+    writeQuestion();
+    writeChoices();
+    intervalId = setInterval(countDown, 1000);
 
-    for (var i = 0; i < questions[counter].choices.length; i++) {
-        console.log(questions[counter].choices);
-        $("#answerArea").append("<button id='answerArea'>" + questions[counter].choices[i] + "</button>");
+}
 
+function writeChoices() {
+    var currentQuestion = questions[counter]
 
+    for (var i = 0; i < currentQuestion.choices.length; i++) {
+        console.log(currentQuestion.choices[i]);
+
+        var isAnswer = currentQuestion.choices[i] === currentQuestion.answer
+
+        if (isAnswer) {
+            $("#answerArea").append("<button class='choice' data-correct='true'>" + questions[counter].choices[i] + "</button>");
+        } else {
+            $("#answerArea").append("<button class='choice' data-correct='false'>" + questions[counter].choices[i] + "</button>");
+        }
     }
-}
 
-// function loadQuestion() {
-//     $("#question").append("<br>" + "<br>" + "<br>" + "<h2>" + questions[counter].question + "</h2>");
-//     for (i = 0; i < questions[counter].answers.length; i++){
-//         $("#answerArea").append("<button id='answerArea'>" + questions[counter].choices[i] + "</button>");
-//     }
-// }
+    $('button[data-correct="true"]').on("click", handleCorrectAnswer);
+    $('button[data-correct="false"]').on("click", handleIncorrectAnswer);
+}
 
 function stop() {
     clearInterval(intervalId);
 }
 
 function countDown() {
-    $("#timerArea").text(timer);
     timer--;
+    $("#timerArea").text(timer);
     if (timer === 0) {
         stop();
     }
 }
 
-
-function wrongAnswer() {
-
+function handleCorrectAnswer() {
+    console.log("correct answer")
+    stop();
+    rightAnswers++;
+    $("#resultArea").show();
+    $("#timerArea").hide();
+    $("#answerArea").hide();
+    $("#questionArea").hide();
+    $("#resultArea").append("<img src ='" + questions[counter].pic + "' id='win-img'>" + "<br>" + "YOU SHALL PASS!");
+    if (counter === questions.length - 1) {
+        $("#resultArea").text(rightAnswers);
+        $("#resultArea").text(wrongAnswers);
+        $("#resultArea").text(unansweredQuestions);
+    }
+    counter++;
+    setTimeout(initializeQuestion, 3000);
 }
 
-function rightAnswer() {
+function handleIncorrectAnswer() {
+    console.log("incorrect answer")
+    stop();
+    wrongAnswers++;
+    $("#resultArea").show();
+    $("#timerArea").hide();
+    $("#answerArea").hide();
+    $("#questionArea").hide();
+    $("#resultArea").append('<img id="theImg" src="assets/images/gandalfnopass.gif" />')
+    if (counter === questions.length - 1) {
+        $("#resultArea").text(rightAnswers);
+        $("#resultArea").text(wrongAnswers);
+        $("#resultArea").text(unansweredQuestions);
+    }
 
+    counter++;
+    setTimeout(initializeQuestion, 3000);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 $(document).ready(function () {
 
-    start();
-
-    // $("#answerArea").on("click", function () {
-
-    //     var userClick = $(this).text();
-    //     if (userClick === questions[counter].answer) {
-    //         right++;
-
-    //         console.log(userClick);
-
-
-    //     }
-    // });
-
-
-
-
-
-
-
-
+    startGame();
 
 });
-
 
 
 

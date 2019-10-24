@@ -73,3 +73,8 @@ h2 {
     text-shadow: 2px 2px black;
     color: white;
 }
+ 
+#resultArea {
+    text-align: center;
+    margin-top: 50px;
+}
