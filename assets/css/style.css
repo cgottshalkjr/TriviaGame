@@ -50,20 +50,26 @@ button:active {
 }
 
 #answerArea {
-    margin-left: 37px;
+    margin-left: 90px;
 }
 
 #timerArea {
-    width: 25%;
+    width: 10%;
     text-align: center;
     font-size: 28px;
     font-family: Arial, Helvetica, sans-serif;
     color: white;
+    border-radius: 10px;
+    background-color:  rgba(84,84,72,0.5);
+}
+
+audio {
+    display: none;
 }
 
 
 #startButton {
-    margin-left: 18%;
+    margin-left: 16%;
     margin-top: 10%;
 }
 
@@ -77,4 +83,18 @@ h2 {
 #resultArea {
     text-align: center;
     margin-top: 50px;
+    font-size: 28px;
+    color: white;
+    border: black;
+    border-radius: 10px;
+}
+
+#scoreArea {
+    margin-left: 118px;
+    margin-top: 30px;
+    font-size: 24px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 10px;
+    text-align: center;
 }

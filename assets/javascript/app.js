@@ -70,12 +70,25 @@ var counter = 0;
 var timer = 10;
 var intervalId;
 
+var wrongChoice = document.getElementById("notPass");
+
+function playAudio() {
+    wrongChoice.play();
+}
+
+var rightChoice = document.getElementById("meatWin");
+
+function playAudio2() {
+    rightChoice.play();
+}
+
 //Function that holds start button and hides it after game is initialized.
 function startGame() {
     $("#startButton").append("<button id='startButton'>Start</button>");
     $("#startButton").on("click", function () {
         $("#startButton").hide();
         initializeQuestion(counter);
+
     });
 }
 
@@ -85,15 +98,14 @@ function writeQuestion() {
 }
 
 function initializeQuestion(counter) {
+    timer = 11;
     $("#resultArea").empty().hide();
     $("#answerArea").empty().show();
     $("#questionArea").empty().show();
     $("#timerArea").show();
-    timer = 10;
     writeQuestion();
     writeChoices();
     intervalId = setInterval(countDown, 1000);
-
 }
 
 function writeChoices() {
@@ -123,45 +135,73 @@ function countDown() {
     timer--;
     $("#timerArea").text(timer);
     if (timer === 0) {
+        unansweredQuestions++;
         stop();
+        if (counter === questions.length - 1) {
+            $("#resultArea").empty();
+            $("#timerArea").empty();
+            $("#answerArea").empty();
+            $("#questionArea").empty();
+            $("#scoreArea").append("Correct: " + rightAnswers + "<br>" + "Wrong: " + wrongAnswers + "<br>" + "Unanswered: " + unansweredQuestions);
+            setTimeout(resetGame, 5000);
+        }
+
+        counter++;
+        initializeQuestion(counter);
     }
 }
 
 function handleCorrectAnswer() {
     console.log("correct answer")
-    stop();
     rightAnswers++;
+    stop();
     $("#resultArea").show();
-    $("#timerArea").hide();
-    $("#answerArea").hide();
-    $("#questionArea").hide();
+    $("#timerArea").empty();
+    $("#answerArea").empty();
+    $("#questionArea").empty();
     $("#resultArea").append("<img src ='" + questions[counter].pic + "' id='win-img'>" + "<br>" + "YOU SHALL PASS!");
+    playAudio2();
     if (counter === questions.length - 1) {
-        $("#resultArea").text(rightAnswers);
-        $("#resultArea").text(wrongAnswers);
-        $("#resultArea").text(unansweredQuestions);
+        $("#resultArea").empty();
+        $("#timerArea").empty();
+        $("#answerArea").empty();
+        $("#questionArea").empty();
+        $("#scoreArea").append("Correct: " + rightAnswers + "<br>" + "Wrong: " + wrongAnswers + "<br>" + "Unanswered: " + unansweredQuestions);
+        setTimeout(resetGame, 5000);
     }
     counter++;
-    setTimeout(initializeQuestion, 3000);
+    setTimeout(initializeQuestion, 3600);
 }
 
 function handleIncorrectAnswer() {
     console.log("incorrect answer")
+    wrongAnswers++
     stop();
-    wrongAnswers++;
     $("#resultArea").show();
-    $("#timerArea").hide();
-    $("#answerArea").hide();
-    $("#questionArea").hide();
-    $("#resultArea").append('<img id="theImg" src="assets/images/gandalfnopass.gif" />')
+    $("#timerArea").empty();
+    $("#answerArea").empty();
+    $("#questionArea").empty();
+    $("#resultArea").append('<img id="theImg" src="assets/images/gandalfnopass.gif" />' + "<br>" + "WHAT HE SAID!")
+    playAudio();
     if (counter === questions.length - 1) {
-        $("#resultArea").text(rightAnswers);
-        $("#resultArea").text(wrongAnswers);
-        $("#resultArea").text(unansweredQuestions);
+        $("#resultArea").empty();
+        $("#timerArea").empty();
+        $("#answerArea").empty();
+        $("#questionArea").empty();
+        $("#scoreArea").append("Correct: " + rightAnswers + "<br>" + "Wrong: " + wrongAnswers + "<br>" + "Unanswered: " + unansweredQuestions);
+        setTimeout(resetGame, 5000);
     }
-
     counter++;
-    setTimeout(initializeQuestion, 3000);
+    setTimeout(initializeQuestion, 5000);
+}
+
+function resetGame() {
+    startGame();
+    rightAnswers = 0;
+    wrongAnswers = 0;
+    unansweredQuestions = 0;
+    counter = 0;
+    timer = 10;
 }
 
 $(document).ready(function () {
@@ -169,7 +209,5 @@ $(document).ready(function () {
     startGame();
 
 });
-
-
 
 
