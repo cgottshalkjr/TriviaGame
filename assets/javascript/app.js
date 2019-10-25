@@ -67,7 +67,7 @@ var rightAnswers = 0;
 var wrongAnswers = 0;
 var unansweredQuestions = 0;
 var counter = 0;
-var timer = 10;
+var timer = 20;
 var intervalId;
 
 var wrongChoice = document.getElementById("notPass");
@@ -80,6 +80,12 @@ var rightChoice = document.getElementById("meatWin");
 
 function playAudio2() {
     rightChoice.play();
+}
+
+var endSound = document.getElementById("endThings");
+
+function playAudio3() {
+    endSound.play();
 }
 
 //Function that holds start button and hides it after game is initialized.
@@ -98,7 +104,7 @@ function writeQuestion() {
 }
 
 function initializeQuestion(counter) {
-    timer = 11;
+    timer = 21;
     $("#resultArea").empty().hide();
     $("#answerArea").empty().show();
     $("#questionArea").empty().show();
@@ -143,9 +149,9 @@ function countDown() {
             $("#answerArea").empty();
             $("#questionArea").empty();
             $("#scoreArea").append("Correct: " + rightAnswers + "<br>" + "Wrong: " + wrongAnswers + "<br>" + "Unanswered: " + unansweredQuestions);
-            setTimeout(resetGame, 5000);
-        }
-
+            $("#scoreArea").append("<br>" + "<br>" + "<br>" + "<button id='reset'>Play Again?</button>");
+            $("#reset").on("click", resetGame);
+            }
         counter++;
         initializeQuestion(counter);
     }
@@ -167,14 +173,14 @@ function handleCorrectAnswer() {
         $("#answerArea").empty();
         $("#questionArea").empty();
         $("#scoreArea").append("Correct: " + rightAnswers + "<br>" + "Wrong: " + wrongAnswers + "<br>" + "Unanswered: " + unansweredQuestions);
-        setTimeout(resetGame, 5000);
-    }
+        $("#scoreArea").append("<br>" + "<br>" + "<br>" + "<button id='reset'>Play Again?</button>");
+        $("#reset").on("click", resetGame);
+        }
     counter++;
     setTimeout(initializeQuestion, 3600);
 }
 
 function handleIncorrectAnswer() {
-    console.log("incorrect answer")
     wrongAnswers++
     stop();
     $("#resultArea").show();
@@ -189,25 +195,29 @@ function handleIncorrectAnswer() {
         $("#answerArea").empty();
         $("#questionArea").empty();
         $("#scoreArea").append("Correct: " + rightAnswers + "<br>" + "Wrong: " + wrongAnswers + "<br>" + "Unanswered: " + unansweredQuestions);
-        setTimeout(resetGame, 5000);
-    }
+        $("#scoreArea").append("<br>" + "<br>" + "<br>" + "<button id='reset'>Play Again?</button>");
+        $("#reset").on("click", resetGame);
+        }
     counter++;
     setTimeout(initializeQuestion, 5000);
 }
 
 function resetGame() {
-    startGame();
+    $("#scoreArea").empty();
     rightAnswers = 0;
     wrongAnswers = 0;
     unansweredQuestions = 0;
     counter = 0;
-    timer = 10;
+    timer = 21;
+    countDown();
+    writeQuestion(counter);
+    writeChoices();
+    intervalId = setInterval(countDown, 1000);
 }
 
 $(document).ready(function () {
 
     startGame();
-
 });
 
 
